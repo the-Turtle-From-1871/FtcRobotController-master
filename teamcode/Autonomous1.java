@@ -6,10 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Autonomous 1 (very experimental (I mean it))")
-@Disabled
 public class Autonomous1 extends LinearOpMode
 {
 
@@ -18,6 +16,7 @@ public class Autonomous1 extends LinearOpMode
     private DcMotor DriveBL;
     private DcMotor DriveBR;
     private Servo Claw;
+    private DcMotor DriveLS;
 
     private double ticksPerCm = 1120 / (2 * 4.5 * 3.14159);
 
@@ -29,7 +28,7 @@ public class Autonomous1 extends LinearOpMode
         DriveBL = hardwareMap.get(DcMotor.class, "DriveBL");
         DriveBR = hardwareMap.get(DcMotor.class, "DriveBR");
         Claw = hardwareMap.get(Servo.class, "Claw");
-        //DriveLS = hardwareMap.get(DcMotor.class, "DriveLS");
+        DriveLS = hardwareMap.get(DcMotor.class, "DriveLS");
 
         DriveBL.setDirection(DcMotorSimple.Direction.REVERSE);
         DriveFR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -41,40 +40,48 @@ public class Autonomous1 extends LinearOpMode
 
         waitForStart();
 
+        Claw.setPosition(0.5);
+        sleep(20);
+        DriveLS.setPower(-0.25);
+        sleep(40);
+        DriveLS.setPower(0);
+
         if (opModeIsActive())
         {
-            Claw.setPosition(0.5);
+            //Forward +, Backwards -
+            DriveFL.setTargetPosition(30);
+            DriveFR.setTargetPosition(30);
+            DriveBL.setTargetPosition(30);
+            DriveBR.setTargetPosition(30);
 
-            while (opModeIsActive())
+            DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            DriveFL.setPower(0.25);
+            DriveFR.setPower(0.25);
+            DriveBL.setPower(0.25);
+            DriveBR.setPower(0.25);
+
+            while (opModeIsActive() && DriveFR.isBusy())
             {
-                DriveFL.setTargetPosition(12 * (int) ticksPerCm);
-                DriveFR.setTargetPosition(-12 * (int) ticksPerCm);
-                DriveBL.setTargetPosition(12 * (int) ticksPerCm);
-                DriveBR.setTargetPosition(-12 * (int) ticksPerCm);
-
-                DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                DriveFL.setPower(0.25);
-                DriveFR.setPower(0.25);
-                DriveBL.setPower(0.25);
-                DriveBR.setPower(0.25);
-
-                /*if (!DriveFR.isBusy())
-                {
-                    sleep(1000);
-                    Claw.setPosition(0.75);
-                }*/
-
-                telemetry.addData("FR Position: ", DriveFR.getCurrentPosition());
-                telemetry.addData("BR Position: ", DriveBR.getCurrentPosition());
-                telemetry.addData("FL Position: ", DriveFL.getCurrentPosition());
-                telemetry.addData("BL Position: ", DriveBL.getCurrentPosition());
-                telemetry.addData("Target Position (FR, but it should be the same for all motors): ", DriveFR.getTargetPosition());
+                telemetry.addData("FR: ", DriveFR.getCurrentPosition());
+                telemetry.addData("FL: ", DriveFL.getCurrentPosition());
+                telemetry.addData("BR: ", DriveBR.getCurrentPosition());
+                telemetry.addData("BL: ", DriveBL.getCurrentPosition());
                 telemetry.update();
             }
+
+            DriveFL.setPower(0);
+            DriveFR.setPower(0);
+            DriveBL.setPower(0);
+            DriveBR.setPower(0);
+
+            DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 }
