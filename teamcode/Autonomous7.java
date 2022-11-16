@@ -187,22 +187,22 @@ public class Autonomous7 extends LinearOpMode {
                             if (recognition.getLabel().equals("2 Octopus") && recognition.getConfidence() > 0.6)
                             {
                                 //positive value is forward, negative value is backwards
-                                setForward(5 * ticksPerIn);
+                                setDriveForward(5);
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                                driveTo();
+                                driveToPos();
 
-                                setLeft(40 * ticksPerIn);
+                                setDriveLeft(40);
 
-                                driveTo();
+                                driveToPos();
 
-                                setForward(30 * ticksPerIn);
+                                setDriveForward(30);
 
-                                driveTo();
+                                driveToPos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -212,14 +212,22 @@ public class Autonomous7 extends LinearOpMode {
                             }
                            else if (recognition.getLabel().equals("3 Crab") && recognition.getConfidence() > 0.6)
                             {
-                                setForward(24 * ticksPerCm);
+                                setDriveForward(5);
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                                driveTo();
+                                driveToPos();
+
+                                setDriveLeft(40);
+
+                                driveToPos();
+
+                                setDriveForward(30);
+
+                                driveToPos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -229,22 +237,22 @@ public class Autonomous7 extends LinearOpMode {
                             }
                             else if (recognition.getLabel().equals("1 Fish") && recognition.getConfidence() > 0.6)
                             {
-                                setForward(5 * ticksPerIn);
+                                setDriveForward(5);
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                                 DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                                driveTo();
+                                driveToPos();
 
-                                setLeft(40 * ticksPerIn);
+                                setDriveLeft(40);
 
-                                driveTo();
+                                driveToPos();
 
-                                setForward(30 * ticksPerIn);
+                                setDriveForward(30);
 
-                                driveTo();
+                                driveToPos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -296,12 +304,12 @@ public class Autonomous7 extends LinearOpMode {
         tfod.loadModelFromFile(TFOD_MODEL_ASSET, LABELS);
     }
 
-    private void setForward(int loc)
+    private void setDriveForward(int inchesForward)
     {
-        DriveFR.setTargetPosition(loc);
-        DriveFL.setTargetPosition(loc);
-        DriveBR.setTargetPosition(loc);
-        DriveBL.setTargetPosition(loc);
+        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + inchesForward * ticksPerIn);
+        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + inchesForward * ticksPerIn);
+        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + inchesForward * ticksPerIn);
+        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + inchesForward * ticksPerIn);
 
         DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -309,12 +317,12 @@ public class Autonomous7 extends LinearOpMode {
         DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    private void setLeft(int loc)
+    private void setDriveLeft(int inchesLeft)
     {
-        DriveFR.setTargetPosition(loc);
-        DriveFL.setTargetPosition(-loc);
-        DriveBR.setTargetPosition(-loc);
-        DriveBL.setTargetPosition(loc);
+        DriveFR.setTargetPosition(DriveFL.getCurrentPosition() + inchesLeft * ticksPerIn);
+        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - inchesLeft * ticksPerIn);
+        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - inchesLeft * ticksPerIn);
+        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + inchesLeft * ticksPerIn);
 
         DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -322,7 +330,33 @@ public class Autonomous7 extends LinearOpMode {
         DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    private void driveTo()
+    private void setDriveRight(int inchesRight)
+    {
+        DriveFR.setTargetPosition(DriveFL.getCurrentPosition() - inchesRight * ticksPerIn);
+        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + inchesRight * ticksPerIn);
+        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + inchesRight * ticksPerIn);
+        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - inchesRight * ticksPerIn);
+
+        DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    private void setDriveBackward(int inchesBack)
+    {
+        DriveFR.setTargetPosition(DriveFL.getCurrentPosition() - inchesBack * ticksPerIn);
+        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - inchesBack * ticksPerIn);
+        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - inchesBack * ticksPerIn);
+        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - inchesBack * ticksPerIn);
+
+        DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    private void driveToPos()
     {
         DriveFL.setPower(0.25);
         DriveFR.setPower(0.25);
