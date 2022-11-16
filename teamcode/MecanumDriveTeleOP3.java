@@ -44,25 +44,25 @@ public class MecanumDriveTeleOP3 extends LinearOpMode {
       DriveFR.setDirection(DcMotorSimple.Direction.REVERSE);
 
       while (opModeIsActive()) {
-        Forward = -1 * gamepad1.left_stick_y; //up -1, down 1
+        Forward = gamepad1.left_stick_y; //up -1, down 1
         Slide = gamepad1.left_stick_x; //left -1, right 1
         Turn = gamepad1.right_stick_x; //left -1, right 1
         Limiter = JavaUtil.maxOfList(JavaUtil.createListWith(1, Math.abs(Forward) + Math.abs(Slide) + Math.abs(Turn)));
         if (gamepad1.right_bumper) {
-          DriveFL.setPower(((Forward + Slide + Turn) / Limiter) / 4);
-          DriveBL.setPower((((Forward - Slide) + Turn) / Limiter) / 4);
-          DriveFR.setPower((((Forward - Slide) - Turn) / Limiter) / 4);
-          DriveBR.setPower((((Forward + Slide) - Turn) / Limiter) / 4);
+          DriveFL.setPower(((Forward - Slide + Turn) / Limiter) / 4);
+          DriveBL.setPower((((Forward + Slide) + Turn) / Limiter) / 4);
+          DriveFR.setPower((((Forward + Slide) - Turn) / Limiter) / 4);
+          DriveBR.setPower((((Forward - Slide) - Turn) / Limiter) / 4);
         } else if (gamepad1.left_bumper) {
-          DriveFL.setPower(((Forward + Slide + Turn) / Limiter));
-          DriveBL.setPower((((Forward - Slide) + Turn) / Limiter));
-          DriveFR.setPower((((Forward - Slide) - Turn) / Limiter));
-          DriveBR.setPower((((Forward + Slide) - Turn) / Limiter));
+          DriveFL.setPower(((Forward - Slide + Turn) / Limiter));
+          DriveBL.setPower((((Forward + Slide) + Turn) / Limiter));
+          DriveFR.setPower((((Forward + Slide) - Turn) / Limiter));
+          DriveBR.setPower((((Forward - Slide) - Turn) / Limiter));
         } else {
-          DriveFL.setPower(((Forward + Slide + Turn) / Limiter) / 2);
-          DriveBL.setPower((((Forward - Slide) + Turn) / Limiter) / 2);
-          DriveFR.setPower((((Forward - Slide) - Turn) / Limiter) / 2);
-          DriveBR.setPower((((Forward + Slide) - Turn) / Limiter) / 2);
+          DriveFL.setPower(((Forward - Slide + Turn) / Limiter) / 2);
+          DriveBL.setPower((((Forward + Slide) + Turn) / Limiter) / 2);
+          DriveFR.setPower((((Forward + Slide) - Turn) / Limiter) / 2);
+          DriveBR.setPower((((Forward - Slide) - Turn) / Limiter) / 2);
           /*
           * Fl -1, forwards; updated, forwards
           * BL -1, backwards; updated, forwards
@@ -108,6 +108,10 @@ public class MecanumDriveTeleOP3 extends LinearOpMode {
         telemetry.addData("FL Angular Velocity: ", DriveFL.getVelocity(AngleUnit.RADIANS));
         telemetry.addData("BR Angular Velocity: ", DriveBR.getVelocity(AngleUnit.RADIANS));
         telemetry.addData("BL Angular Velocity: ", DriveBL.getVelocity(AngleUnit.RADIANS));
+        telemetry.addData("FR Position: ", DriveFR.getCurrentPosition());
+        telemetry.addData("FL Position: ", DriveFL.getCurrentPosition());
+        telemetry.addData("BR Position: ", DriveBR.getCurrentPosition());
+        telemetry.addData("BL Position: ", DriveBL.getCurrentPosition());
         telemetry.addData("Left Stick X: ", gamepad1.left_stick_x);
         telemetry.addData("Left Stick Y: ", gamepad1.left_stick_y);
         telemetry.addData("Claw Position: ", Claw.getPosition());
