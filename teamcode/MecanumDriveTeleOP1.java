@@ -38,31 +38,37 @@ public class MecanumDriveTeleOP1 extends LinearOpMode {
     Claw = hardwareMap.get(Servo.class, "Claw");
 
     Claw.setPosition(0.79);
+
+    /*DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);*/
+
     waitForStart();
     if (opModeIsActive()) {
       DriveBL.setDirection(DcMotorSimple.Direction.REVERSE);
-      DriveFR.setDirection(DcMotorSimple.Direction.REVERSE);
+      DriveFL.setDirection(DcMotorSimple.Direction.REVERSE);
 
       while (opModeIsActive()) {
-        Forward = gamepad1.left_stick_y; //up -1, down 1
+        Forward = -1 * gamepad1.left_stick_y; //up -1, down 1
         Slide = gamepad1.left_stick_x; //left -1, right 1
         Turn = gamepad1.right_stick_x; //left -1, right 1
         Limiter = JavaUtil.maxOfList(JavaUtil.createListWith(1, Math.abs(Forward) + Math.abs(Slide) + Math.abs(Turn)));
         if (gamepad1.right_bumper) {
-          DriveFL.setPower(((Forward - Slide + Turn) / Limiter) / 4);
-          DriveBL.setPower((((Forward + Slide) + Turn) / Limiter) / 4);
-          DriveFR.setPower((((Forward + Slide) - Turn) / Limiter) / 4);
-          DriveBR.setPower((((Forward - Slide) - Turn) / Limiter) / 4);
+          DriveFL.setPower(((Forward + Slide + Turn) / Limiter) / 4);
+          DriveBL.setPower((((Forward - Slide) + Turn) / Limiter) / 4);
+          DriveFR.setPower((((Forward - Slide) - Turn) / Limiter) / 4);
+          DriveBR.setPower((((Forward + Slide) - Turn) / Limiter) / 4);
         } else if (gamepad1.left_bumper) {
-          DriveFL.setPower(((Forward - Slide + Turn) / Limiter));
-          DriveBL.setPower((((Forward + Slide) + Turn) / Limiter));
-          DriveFR.setPower((((Forward + Slide) - Turn) / Limiter));
-          DriveBR.setPower((((Forward - Slide) - Turn) / Limiter));
+          DriveFL.setPower(((Forward + Slide + Turn) / Limiter));
+          DriveBL.setPower((((Forward - Slide) + Turn) / Limiter));
+          DriveFR.setPower((((Forward - Slide) - Turn) / Limiter));
+          DriveBR.setPower((((Forward + Slide) - Turn) / Limiter));
         } else {
-          DriveFL.setPower(((Forward - Slide + Turn) / Limiter) / 2);
-          DriveBL.setPower((((Forward + Slide) + Turn) / Limiter) / 2);
-          DriveFR.setPower((((Forward + Slide) - Turn) / Limiter) / 2);
-          DriveBR.setPower((((Forward - Slide) - Turn) / Limiter) / 2);
+          DriveFL.setPower(((Forward + Slide + Turn) / Limiter) / 2);
+          DriveBL.setPower((((Forward - Slide) + Turn) / Limiter) / 2);
+          DriveFR.setPower((((Forward - Slide) - Turn) / Limiter) / 2);
+          DriveBR.setPower((((Forward + Slide) - Turn) / Limiter) / 2);
           /*
            * Fl -1, forwards; updated, forwards
            * BL -1, backwards; updated, forwards
