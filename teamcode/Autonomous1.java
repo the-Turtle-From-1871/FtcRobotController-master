@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name="Autonomous 1 (very experimental (I mean it))")
+@Disabled
 public class Autonomous1 extends LinearOpMode
 {
 
@@ -18,7 +19,7 @@ public class Autonomous1 extends LinearOpMode
     private Servo Claw;
     private DcMotor DriveLS;
 
-    private double ticksPerCm = 1120 / (2 * 4.5 * 3.14159);
+    private int ticksPerCm = 1120 / (int)(2 * 4.5 * 3.14159);
 
     @Override
     public void runOpMode()
@@ -30,8 +31,8 @@ public class Autonomous1 extends LinearOpMode
         Claw = hardwareMap.get(Servo.class, "Claw");
         DriveLS = hardwareMap.get(DcMotor.class, "DriveLS");
 
-        DriveBL.setDirection(DcMotorSimple.Direction.REVERSE);
-        DriveFR.setDirection(DcMotorSimple.Direction.REVERSE);
+        DriveBR.setDirection(DcMotorSimple.Direction.REVERSE);
+        DriveFL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         DriveFL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DriveFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -49,10 +50,10 @@ public class Autonomous1 extends LinearOpMode
         if (opModeIsActive())
         {
             //Forward +, Backwards -
-            DriveFL.setTargetPosition(30);
-            DriveFR.setTargetPosition(30);
-            DriveBL.setTargetPosition(30);
-            DriveBR.setTargetPosition(30);
+            DriveFL.setTargetPosition(12 * ticksPerCm);
+            DriveFR.setTargetPosition(12 * ticksPerCm);
+            DriveBL.setTargetPosition(12 * ticksPerCm);
+            DriveBR.setTargetPosition(12 * ticksPerCm);
 
             DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -63,7 +64,6 @@ public class Autonomous1 extends LinearOpMode
             DriveFR.setPower(0.25);
             DriveBL.setPower(0.25);
             DriveBR.setPower(0.25);
-
             while (opModeIsActive() && DriveFR.isBusy())
             {
                 telemetry.addData("FR: ", DriveFR.getCurrentPosition());
