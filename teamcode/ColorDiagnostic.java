@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import java.lang.String.*;
 
 @TeleOp(name="Color Diagnostic")
 public class ColorDiagnostic extends LinearOpMode
@@ -19,6 +20,22 @@ public class ColorDiagnostic extends LinearOpMode
         while(opModeIsActive())
         {
             //cSensor.enableLed(false);
+
+            if(cSensor.argb() > 1664568732 && cSensor.argb() < 1764568732)
+            {
+                //do something
+            }
+            else if(cSensor.argb() > -1906161634 && cSensor.argb() < -1706161634)
+            {
+                //do something
+            }
+            else if(cSensor.argb() > 1462581032 && cSensor.argb() < 1606161634)
+            {
+                //do something
+            }
+
+
+
             telemetry.addData("R ", cSensor.red());
             telemetry.addData("G ", cSensor.green());
             telemetry.addData("B ", cSensor.blue());
