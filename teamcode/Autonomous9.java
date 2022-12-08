@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -58,7 +59,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Autonomous 8 (Even More Experimental)")
+@Autonomous(name = "Autonomous 9 (Even More Experimental)")
 public class Autonomous9 extends LinearOpMode {
 
     private DcMotor DriveFL;
@@ -196,11 +197,11 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveRight(20);
+                                setDriveRight(30);
 
                                 driveToPos();
 
-                                setDriveForward(35);
+                                setDriveForward(27);
 
                                 driveToPos();
 
@@ -216,7 +217,13 @@ public class Autonomous9 extends LinearOpMode {
 
                                 gyroCheck(false);
 
-                                setDriveLeft(33);
+                                setDriveForward(29);
+
+                                driveToPos();
+
+                                setDriveLeft(35);
+
+                                driveToPos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -235,11 +242,11 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveRight(20);
+                                setDriveRight(30);
 
                                 driveToPos();
 
-                                setDriveForward(35);
+                                setDriveForward(27);
 
                                 driveToPos();
 
@@ -272,11 +279,11 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveRight(20);
+                                setDriveRight(30);
 
                                 driveToPos();
 
-                                setDriveForward(35);
+                                setDriveForward(27);
 
                                 driveToPos();
 
@@ -313,11 +320,11 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveRight(20);
+                                setDriveRight(30);
 
                                 driveToPos();
 
-                                setDriveForward(35);
+                                setDriveForward(27);
 
                                 driveToPos();
 
@@ -387,111 +394,140 @@ public class Autonomous9 extends LinearOpMode {
 
     private void setDriveForward(int inchesForward)
     {
-        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() - inchesForward * ticksPerIn);
-        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - inchesForward * ticksPerIn);
-        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - inchesForward * ticksPerIn);
-        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - inchesForward * ticksPerIn);
+        if(opModeIsActive())
+        {
+            DriveFR.setTargetPosition(DriveFR.getCurrentPosition() - inchesForward * ticksPerIn);
+            DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - inchesForward * ticksPerIn);
+            DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - inchesForward * ticksPerIn);
+            DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - inchesForward * ticksPerIn);
 
-        DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
 
     private void setDriveRight(int inchesRight)
     {
-        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + inchesRight * ticksPerIn);
-        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - inchesRight * ticksPerIn);
-        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - inchesRight * ticksPerIn);
-        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + inchesRight * ticksPerIn);
+        if(opModeIsActive())
+        {
+            DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + inchesRight * ticksPerIn);
+            DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - inchesRight * ticksPerIn);
+            DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - inchesRight * ticksPerIn);
+            DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + inchesRight * ticksPerIn);
 
-        DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
 
     private void setDriveLeft(int inchesLeft)
     {
-        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() - inchesLeft * ticksPerIn);
-        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + inchesLeft * ticksPerIn);
-        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + inchesLeft * ticksPerIn);
-        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - inchesLeft * ticksPerIn);
+        if(opModeIsActive())
+        {
+            DriveFR.setTargetPosition(DriveFR.getCurrentPosition() - inchesLeft * ticksPerIn);
+            DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + inchesLeft * ticksPerIn);
+            DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + inchesLeft * ticksPerIn);
+            DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - inchesLeft * ticksPerIn);
 
-        DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
 
     private void setDriveBackward(int inchesBack)
     {
-        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + inchesBack * ticksPerIn);
-        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + inchesBack * ticksPerIn);
-        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + inchesBack * ticksPerIn);
-        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + inchesBack * ticksPerIn);
+        if(opModeIsActive())
+        {
+            DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + inchesBack * ticksPerIn);
+            DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + inchesBack * ticksPerIn);
+            DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + inchesBack * ticksPerIn);
+            DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + inchesBack * ticksPerIn);
 
-        DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
 
     private void driveToPos()
     {
-        DriveFL.setPower(0.25);
-        DriveFR.setPower(0.25);
-        DriveBL.setPower(0.25);
-        DriveBR.setPower(0.25);
-
-        while (DriveFR.isBusy() || DriveFR.getCurrentPosition() != DriveFR.getTargetPosition())
+        if(opModeIsActive())
         {
-            telemetry.addLine("Busy");
-            telemetry.addData("FL ", DriveFL.getTargetPosition());
-            telemetry.addData("FR ", DriveFR.getTargetPosition());
-            telemetry.addData("BL ", DriveBL.getTargetPosition());
-            telemetry.addData("BR ", DriveBR.getTargetPosition());
-            telemetry.update();
+            DriveFL.setPower(0.25);
+            DriveFR.setPower(0.25);
+            DriveBL.setPower(0.25);
+            DriveBR.setPower(0.25);
+
+            while (opModeIsActive() && (DriveFR.isBusy() || DriveBL.isBusy() /*|| DriveFR.getCurrentPosition() != DriveFR.getTargetPosition() || DriveBL.getCurrentPosition() != DriveBL.getTargetPosition()*/))
+            {
+                telemetry.addLine("Busy");
+                telemetry.addData("FL ", DriveFL.getTargetPosition());
+                telemetry.addData("FR ", DriveFR.getTargetPosition());
+                telemetry.addData("BL ", DriveBL.getTargetPosition());
+                telemetry.addData("BR ", DriveBR.getTargetPosition());
+                telemetry.addData("Heading ", robotAngle.firstAngle);
+                telemetry.update();
+            }
+
+            DriveFL.setPower(0);
+            DriveFR.setPower(0);
+            DriveBL.setPower(0);
+            DriveBR.setPower(0);
+
+            sleep(25);
         }
-
-        DriveFL.setPower(0);
-        DriveFR.setPower(0);
-        DriveBL.setPower(0);
-        DriveBR.setPower(0);
-
-        sleep(50);
     }
 
     private void gyroCheck (boolean angled)
     {
-        if(angled)
+        if (opModeIsActive())
         {
-            while (robotAngle.firstAngle < -38 || robotAngle.firstAngle > -32)
+            if (angled)
             {
-                DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + (int) robotAngle.firstAngle/20);
-                DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + (int) robotAngle.firstAngle/20);
-                DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - (int) robotAngle.firstAngle/20);
-                DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - (int) robotAngle.firstAngle/20);
+                while (robotAngle.firstAngle < -39 || robotAngle.firstAngle > -31)
+                {
+                    robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-                sleep(50);
+                    telemetry.addData("Heading (turning) ", robotAngle.firstAngle);
+                    telemetry.update();
 
-                driveToPos();
+                    DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - 50);
+                    DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + 50);
+                    DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - 50);
+                    DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + 50);
+
+                    DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    driveToPos();
+                }
             }
-        }
-        else
-        {
-            while (robotAngle.firstAngle < -3 || robotAngle.firstAngle > 3)
+            else
             {
-                DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + (int) robotAngle.firstAngle);
-                DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + (int) robotAngle.firstAngle);
-                DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - (int) robotAngle.firstAngle);
-                DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - (int) robotAngle.firstAngle);
+                while (robotAngle.firstAngle < -3 || robotAngle.firstAngle > 3)
+                {
+                    robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-                sleep(50);
+                    DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + 50);
+                    DriveFR.setTargetPosition(DriveFR.getCurrentPosition() - 50);
+                    DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + 50);
+                    DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - 50);
 
-                driveToPos();
+                    driveToPos();
+                }
             }
+            telemetry.addLine("-Gyro Check Cleared.");
+            telemetry.update();
+            //throws error after moving 5 inches sometimes (check out)
         }
-        telemetry.addLine("-Gyro Check Cleared.");
     }
 }
