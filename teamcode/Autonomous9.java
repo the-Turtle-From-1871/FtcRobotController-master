@@ -299,10 +299,14 @@ public class Autonomous9 extends LinearOpMode {
 
                                 gyroCheck(false);
 
-                                setDriveLeft(70);
+                                setDriveForward(30);
 
                                 driveToPos();
-
+                                
+                                setDriveLeft(75);
+                                
+                                driveToPos();
+                                
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
