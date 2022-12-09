@@ -161,18 +161,16 @@ public class Autonomous9 extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+
+            Claw.setPosition(0.5);
+            sleep(10);
+            DriveLS.setPower(-0.25);
+            sleep(40);
+            DriveLS.setPower(0);
+
             while (opModeIsActive()) {
 
-                if (DriveLS.getCurrentPosition() >= -1000)
-                {
-                    Claw.setPosition(0.5);
-                    sleep(20);
-                    DriveLS.setPower(-0.25);
-                    sleep(40);
-                    DriveLS.setPower(0);
-                }
-
-                if (tfod != null) {
+                if (tfod != null && opModeIsActive()) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -205,11 +203,15 @@ public class Autonomous9 extends LinearOpMode {
 
                                 setDriveForward(27);
 
+                                DriveLS.setPower(-0.75);
+
                                 driveToPos();
 
                                 setAngleTurn();
 
                                 driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(true);
 
@@ -217,13 +219,19 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
+                                Claw.setPosition(0.79);
+
                                 setDriveBackward(10);
 
                                 driveToPos();
 
+                                DriveLS.setPower(1);
+
                                 setAngleTurnBack();
 
                                 driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
@@ -258,11 +266,15 @@ public class Autonomous9 extends LinearOpMode {
 
                                 setDriveForward(27);
 
+                                DriveLS.setPower(-0.75);
+
                                 driveToPos();
 
                                 setAngleTurn();
 
                                 driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(true);
 
@@ -270,13 +282,19 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
+                                Claw.setPosition(0.79);
+
                                 setDriveBackward(10);
 
                                 driveToPos();
 
+                                DriveLS.setPower(1);
+
                                 setAngleTurnBack();
 
                                 driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
@@ -303,11 +321,15 @@ public class Autonomous9 extends LinearOpMode {
 
                                 setDriveForward(27);
 
+                                DriveLS.setPower(-0.75);
+
                                 driveToPos();
 
                                 setAngleTurn();
 
                                 driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(true);
 
@@ -315,13 +337,19 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
+                                Claw.setPosition(0.79);
+
                                 setDriveBackward(10);
 
                                 driveToPos();
 
+                                DriveLS.setPower(1);
+
                                 setAngleTurnBack();
 
                                 driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
@@ -356,11 +384,15 @@ public class Autonomous9 extends LinearOpMode {
 
                                 setDriveForward(27);
 
+                                DriveLS.setPower(-0.75);
+
                                 driveToPos();
 
                                 setAngleTurn();
 
                                 driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(true);
 
@@ -368,9 +400,19 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
+                                Claw.setPosition(0.79);
+
                                 setDriveBackward(10);
 
                                 driveToPos();
+
+                                DriveLS.setPower(1);
+
+                                setAngleTurnBack();
+
+                                driveToPos();
+
+                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
@@ -499,7 +541,7 @@ public class Autonomous9 extends LinearOpMode {
             DriveBL.setPower(0.5);
             DriveBR.setPower(0.5);
 
-            while (opModeIsActive() && DriveFR.isBusy() || DriveBL.isBusy())
+            while (opModeIsActive() && (DriveFR.isBusy() || DriveBL.isBusy()))
             {
                 robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
