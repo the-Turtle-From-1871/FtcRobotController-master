@@ -59,7 +59,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Autonomous 8 (Experimental)")
+@Autonomous(name = "Autonomous 8 (Legacy, goes into signal zones)")
 public class Autonomous8 extends LinearOpMode {
 
     private DcMotor DriveFL;
@@ -176,7 +176,7 @@ public class Autonomous8 extends LinearOpMode {
 
                 if (DriveLS.getCurrentPosition() >= -1000)
                 {
-                    Claw.setPosition(0.5);
+                    Claw.setPosition(0);
                     sleep(20);
                     DriveLS.setPower(-0.25);
                     sleep(40);
@@ -235,7 +235,7 @@ public class Autonomous8 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveRight(33);
+                                setDriveRight(30);
 
                                 driveToPos();
 
@@ -285,7 +285,7 @@ public class Autonomous8 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveRight(33);
+                                setDriveRight(30);
 
                                 driveToPos();
 
