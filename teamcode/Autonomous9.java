@@ -59,7 +59,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Autonomous 9 (Even More Experimental)")
+@Autonomous(name = "Autonomous 9 (With Slide)")
 public class Autonomous9 extends LinearOpMode {
 
     private DcMotor DriveFL;
@@ -70,10 +70,13 @@ public class Autonomous9 extends LinearOpMode {
     private DcMotor DriveLS;
     private BNO055IMU gyroscopePart;
     private Orientation robotAngle;
+    double servoOpen = 1;
+    double servoClose = 0;
 
     private double gearRatio = 2.0;
     private int ticksPerCm = 1120 / (int)(2 * 4.5 * 3.14159);
     private int ticksPerIn = 1120 / (int) gearRatio / (int)(2 * 2 * 3.14159); //code for gear ratio is okay because it's a whole number, but might be sketchy for real doubles
+    private int waitTime = 2500; //time to raise slide fully
 
 
 
@@ -156,16 +159,16 @@ public class Autonomous9 extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
 
-        Claw.setPosition(0.79);
+        Claw.setPosition(servoOpen);
 
         waitForStart();
 
         if (opModeIsActive()) {
 
-            Claw.setPosition(0.5);
+            Claw.setPosition(servoClose);
             sleep(10);
             DriveLS.setPower(-0.25);
-            sleep(40);
+            sleep(500);
             DriveLS.setPower(0);
 
             while (opModeIsActive()) {
@@ -201,9 +204,7 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveForward(27);
-
-                                DriveLS.setPower(-0.75);
+                                setDriveForward(25);
 
                                 driveToPos();
 
@@ -211,27 +212,29 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                DriveLS.setPower(0);
-
                                 gyroCheck(true);
 
-                                setDriveForward(10);
+                                DriveLS.setPower(-0.95);
+                                sleep(waitTime);
+                                DriveLS.setPower(0);
+
+                                setDriveForward(11);
 
                                 driveToPos();
 
-                                Claw.setPosition(0.79);
+                                Claw.setPosition(servoOpen);
 
-                                setDriveBackward(10);
+                                setDriveBackward(11);
 
                                 driveToPos();
 
-                                DriveLS.setPower(1);
+                                DriveLS.setPower(0.95);
+                                sleep(waitTime - 400);
+                                DriveLS.setPower(0);
 
                                 setAngleTurnBack();
 
                                 driveToPos();
-
-                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
@@ -264,9 +267,7 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveForward(27);
-
-                                DriveLS.setPower(-0.75);
+                                setDriveForward(25);
 
                                 driveToPos();
 
@@ -274,27 +275,29 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                DriveLS.setPower(0);
-
                                 gyroCheck(true);
 
-                                setDriveForward(10);
+                                DriveLS.setPower(-0.95);
+                                sleep(waitTime);
+                                DriveLS.setPower(0);
+
+                                setDriveForward(11);
 
                                 driveToPos();
 
-                                Claw.setPosition(0.79);
+                                Claw.setPosition(servoOpen);
 
-                                setDriveBackward(10);
+                                setDriveBackward(11);
 
                                 driveToPos();
 
-                                DriveLS.setPower(1);
+                                DriveLS.setPower(0.95);
+                                sleep(waitTime - 400);
+                                DriveLS.setPower(0);
 
                                 setAngleTurnBack();
 
                                 driveToPos();
-
-                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
@@ -304,7 +307,7 @@ public class Autonomous9 extends LinearOpMode {
                                 DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 sleep(30000);
                             }
-                            else if (recognition.getLabel().equals("1 Fish") && recognition.getConfidence() > 0.69)
+                            else if (recognition.getLabel().equals("1 Fish") && recognition.getConfidence() > 0.73)
                             {
                                 setDriveForward(5);
 
@@ -319,9 +322,7 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveForward(27);
-
-                                DriveLS.setPower(-0.75);
+                                setDriveForward(25);
 
                                 driveToPos();
 
@@ -329,27 +330,29 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                DriveLS.setPower(0);
-
                                 gyroCheck(true);
 
-                                setDriveForward(10);
+                                DriveLS.setPower(-0.95);
+                                sleep(waitTime);
+                                DriveLS.setPower(0);
+
+                                setDriveForward(11);
 
                                 driveToPos();
 
-                                Claw.setPosition(0.79);
+                                Claw.setPosition(servoOpen);
 
-                                setDriveBackward(10);
+                                setDriveBackward(11);
 
                                 driveToPos();
 
-                                DriveLS.setPower(1);
+                                DriveLS.setPower(0.95);
+                                sleep(waitTime - 400);
+                                DriveLS.setPower(0);
 
                                 setAngleTurnBack();
 
                                 driveToPos();
-
-                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
@@ -357,7 +360,7 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveLeft(73);
+                                setDriveLeft(74);
 
                                 driveToPos();
 
@@ -382,9 +385,7 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                setDriveForward(27);
-
-                                DriveLS.setPower(-0.75);
+                                setDriveForward(25);
 
                                 driveToPos();
 
@@ -392,27 +393,29 @@ public class Autonomous9 extends LinearOpMode {
 
                                 driveToPos();
 
-                                DriveLS.setPower(0);
-
                                 gyroCheck(true);
 
-                                setDriveForward(10);
+                                DriveLS.setPower(-0.95);
+                                sleep(waitTime - 400);
+                                DriveLS.setPower(0);
+
+                                setDriveForward(11);
 
                                 driveToPos();
 
-                                Claw.setPosition(0.79);
+                                Claw.setPosition(servoOpen);
 
-                                setDriveBackward(10);
+                                setDriveBackward(11);
 
                                 driveToPos();
 
-                                DriveLS.setPower(1);
+                                DriveLS.setPower(0.95);
+                                sleep(waitTime);
+                                DriveLS.setPower(0);
 
                                 setAngleTurnBack();
 
                                 driveToPos();
-
-                                DriveLS.setPower(0);
 
                                 gyroCheck(false);
 
