@@ -60,7 +60,7 @@ public class Autonomous12 extends LinearOpMode {
     private BNO055IMU gyroscopePart;
     private Orientation robotAngle;
     double servoOpen = 1;
-    double servoClose = 0.5;
+    double servoClose = 0.2;
 
     private double gearRatio = 2.0;
     private int ticksPerCm = 1120 / (int)(2 * 4.5 * 3.14159);
@@ -122,9 +122,9 @@ public class Autonomous12 extends LinearOpMode {
         DriveBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DriveBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        BNO055IMU.Parameters gyroscopeParameters = new BNO055IMU.Parameters();
         gyroscopePart = hardwareMap.get(BNO055IMU.class, "imu");
-        gyroscopePart.initialize(parameters);
+        gyroscopePart.initialize(gyroscopeParameters);
 
         robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -153,13 +153,17 @@ public class Autonomous12 extends LinearOpMode {
 
         waitForStart();
 
+        /* Measurements were made with the robot at __.__ volts, on the back right corner of the starting square,
+         the edge of the back wheels perpendicular to the end of the solid part of the square, and the bolts
+         sticking out of the right wheels lined up to the end of the solid part */
+
         if (opModeIsActive()) {
 
-            Claw.setPosition(servoClose);
+            /*Claw.setPosition(servoClose);
             sleep(10);
             DriveLS.setPower(-0.25);
             sleep(500);
-            DriveLS.setPower(0);
+            DriveLS.setPower(0);*/
 
             while (opModeIsActive()) {
 
@@ -192,7 +196,7 @@ public class Autonomous12 extends LinearOpMode {
 
                                 setDriveRight(30);
 
-                                driveToLinearPos();
+                                driveToSidePos();
 
                                 setDriveForward(25);
 
@@ -204,9 +208,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 gyroCheck(true);
 
-                                DriveLS.setPower(-0.95);
+                                /*DriveLS.setPower(-0.95);
                                 sleep(waitTime);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setDriveForward(11);
 
@@ -218,9 +222,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 driveToAngledPos();
 
-                                DriveLS.setPower(0.95);
+                                /*DriveLS.setPower(0.95);
                                 sleep(waitTime - 400);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setAngleTurnBack();
 
@@ -234,7 +238,7 @@ public class Autonomous12 extends LinearOpMode {
 
                                 setDriveLeft(38);
 
-                                driveToLinearPos();
+                                driveToSidePos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -255,7 +259,7 @@ public class Autonomous12 extends LinearOpMode {
 
                                 setDriveRight(30);
 
-                                driveToLinearPos();
+                                driveToSidePos();
 
                                 setDriveForward(25);
 
@@ -267,9 +271,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 gyroCheck(true);
 
-                                DriveLS.setPower(-0.95);
+                                /*DriveLS.setPower(-0.95);
                                 sleep(waitTime);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setDriveForward(11);
 
@@ -281,9 +285,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 driveToAngledPos();
 
-                                DriveLS.setPower(0.95);
+                                /*DriveLS.setPower(0.95);
                                 sleep(waitTime - 400);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setAngleTurnBack();
 
@@ -297,7 +301,7 @@ public class Autonomous12 extends LinearOpMode {
                                 DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 sleep(30000);
                             }
-                            else if (recognition.getLabel().equals("1 Fish") && recognition.getConfidence() > 0.73)
+                            else if (recognition.getLabel().equals("1 Fish") && recognition.getConfidence() > 0.74)
                             {
                                 setDriveForward(5);
 
@@ -310,7 +314,7 @@ public class Autonomous12 extends LinearOpMode {
 
                                 setDriveRight(30);
 
-                                driveToLinearPos();
+                                driveToSidePos();
 
                                 setDriveForward(25);
 
@@ -322,9 +326,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 gyroCheck(true);
 
-                                DriveLS.setPower(-0.95);
+                                /*DriveLS.setPower(-0.95);
                                 sleep(waitTime);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setDriveForward(11);
 
@@ -336,9 +340,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 driveToAngledPos();
 
-                                DriveLS.setPower(0.95);
+                                /*DriveLS.setPower(0.95);
                                 sleep(waitTime - 400);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setAngleTurnBack();
 
@@ -352,7 +356,7 @@ public class Autonomous12 extends LinearOpMode {
 
                                 setDriveLeft(74);
 
-                                driveToLinearPos();
+                                driveToSidePos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -360,7 +364,7 @@ public class Autonomous12 extends LinearOpMode {
                                 DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 sleep(30000);
                             }
-                            if(getRuntime() > 15000)
+                            else if(getRuntime() > 15000)
                             {
                                 setDriveForward(5);
 
@@ -373,7 +377,7 @@ public class Autonomous12 extends LinearOpMode {
 
                                 setDriveRight(30);
 
-                                driveToLinearPos();
+                                driveToSidePos();
 
                                 setDriveForward(25);
 
@@ -385,9 +389,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 gyroCheck(true);
 
-                                DriveLS.setPower(-0.95);
+                                /*DriveLS.setPower(-0.95);
                                 sleep(waitTime - 400);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setDriveForward(11);
 
@@ -399,9 +403,9 @@ public class Autonomous12 extends LinearOpMode {
 
                                 driveToAngledPos();
 
-                                DriveLS.setPower(0.95);
+                                /*DriveLS.setPower(0.95);
                                 sleep(waitTime);
-                                DriveLS.setPower(0);
+                                DriveLS.setPower(0);*/
 
                                 setAngleTurnBack();
 
@@ -525,14 +529,14 @@ public class Autonomous12 extends LinearOpMode {
         }
     }
 
-    private void driveToLinearPos()
+    private void driveToSidePos()
     {
         if(opModeIsActive())
         {
-            /*DriveFL.setPower(0.5);
+            DriveFL.setPower(0.5);
             DriveFR.setPower(0.5);
             DriveBL.setPower(0.5);
-            DriveBR.setPower(0.5);*/
+            DriveBR.setPower(0.5);
 
             while (opModeIsActive() && (DriveFR.isBusy() || DriveBL.isBusy()))
             {
@@ -540,17 +544,98 @@ public class Autonomous12 extends LinearOpMode {
 
                 if(robotAngle.firstAngle > 3)
                 {
+                    DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                    DriveFL.setPower(0.8);
+                    DriveFR.setPower(0.2);
+                    DriveBL.setPower(0.8);
+                    DriveBR.setPower(0.2);
+                    telemetry.addLine("-Correcting Right");
+                }
+                else if(robotAngle.firstAngle < -3)
+                {
+                    DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
                     DriveFL.setPower(0.45);
                     DriveFR.setPower(0.55);
                     DriveBL.setPower(0.45);
                     DriveBR.setPower(0.55);
+                    telemetry.addLine("-Correcting Left");
                 }
-                else if(robotAngle.firstAngle < -3)
+                else
+                {
+                    DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    DriveFL.setPower(0.5);
+                    DriveFR.setPower(0.5);
+                    DriveBL.setPower(0.5);
+                    DriveBR.setPower(0.5);
+                    telemetry.addLine("-On Course");
+                }
+
+                telemetry.addLine("Busy");
+                telemetry.addData("FL Target:", DriveFL.getTargetPosition());
+                telemetry.addData("BR Target:", DriveBR.getTargetPosition());
+                telemetry.addData("FR Target:", DriveFR.getTargetPosition());
+                telemetry.addData("BL Target:", DriveBL.getTargetPosition());
+                telemetry.addData("FL Pos:", DriveFL.getTargetPosition());
+                telemetry.addData("BR Pos: ", DriveBR.getTargetPosition());
+                telemetry.addData("FR Pos: ", DriveFR.getTargetPosition());
+                telemetry.addData("BL Pos: ", DriveBL.getTargetPosition());
+                telemetry.addData("Heading ", robotAngle.firstAngle);
+                telemetry.update();
+            }
+
+            DriveFL.setPower(0);
+            DriveFR.setPower(0);
+            DriveBL.setPower(0);
+            DriveBR.setPower(0);
+
+            telemetry.addLine("Run Completed");
+            telemetry.addData("Heading ", robotAngle.firstAngle);
+            telemetry.update();
+
+            sleep(25);
+        }
+    }
+
+    private void driveToLinearPos()
+    {
+        if(opModeIsActive())
+        {
+            DriveFL.setPower(0.5);
+            DriveFR.setPower(0.5);
+            DriveBL.setPower(0.5);
+            DriveBR.setPower(0.5);
+
+            while (opModeIsActive() && (DriveFR.isBusy() || DriveBL.isBusy()))
+            {
+                robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+                if(robotAngle.firstAngle > 3)
                 {
                     DriveFL.setPower(0.55);
                     DriveFR.setPower(0.45);
                     DriveBL.setPower(0.55);
                     DriveBR.setPower(0.45);
+                    telemetry.addLine("-Correcting Right");
+                }
+                else if(robotAngle.firstAngle < -3)
+                {
+                    DriveFL.setPower(0.45);
+                    DriveFR.setPower(0.55);
+                    DriveBL.setPower(0.45);
+                    DriveBR.setPower(0.55);
+                    telemetry.addLine("-Correcting Left");
                 }
                 else
                 {
@@ -558,6 +643,7 @@ public class Autonomous12 extends LinearOpMode {
                     DriveFR.setPower(0.5);
                     DriveBL.setPower(0.5);
                     DriveBR.setPower(0.5);
+                    telemetry.addLine("-On Course");
                 }
 
                 telemetry.addLine("Busy");
@@ -573,6 +659,10 @@ public class Autonomous12 extends LinearOpMode {
             DriveFR.setPower(0);
             DriveBL.setPower(0);
             DriveBR.setPower(0);
+
+            telemetry.addLine("Run Completed");
+            telemetry.addData("Heading ", robotAngle.firstAngle);
+            telemetry.update();
 
             sleep(25);
         }
@@ -605,6 +695,10 @@ public class Autonomous12 extends LinearOpMode {
             DriveBL.setPower(0);
             DriveBR.setPower(0);
 
+            telemetry.addLine("Run Completed");
+            telemetry.addData("Heading ", robotAngle.firstAngle);
+            telemetry.update();
+
             sleep(25);
         }
     }
@@ -613,6 +707,11 @@ public class Autonomous12 extends LinearOpMode {
     {
         if(opModeIsActive())
         {
+
+            DriveFL.setPower(0.5);
+            DriveFR.setPower(0.5);
+            DriveBL.setPower(0.5);
+            DriveBR.setPower(0.5);
 
             while (opModeIsActive() && (DriveFR.isBusy() || DriveBL.isBusy()))
             {
@@ -653,6 +752,10 @@ public class Autonomous12 extends LinearOpMode {
             DriveFR.setPower(0);
             DriveBL.setPower(0);
             DriveBR.setPower(0);
+
+            telemetry.addLine("Run Completed");
+            telemetry.addData("Heading ", robotAngle.firstAngle);
+            telemetry.update();
 
             sleep(25);
         }
@@ -744,6 +847,8 @@ public class Autonomous12 extends LinearOpMode {
         DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //To Do: refine turn (if this doesn't work, work on some dynamic method)
     }
 
     private void setAngleTurnBack ()
