@@ -48,7 +48,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
-@Autonomous(name = "Autonomous 11 (Experimental Slide)")
+@Autonomous(name = "Autonomous 11 (Right Side)", preselectTeleOp = "MecanumDriveTeleOP1 (operational)")
 public class Autonomous11 extends LinearOpMode {
 
     private DcMotor DriveFL;
@@ -60,7 +60,9 @@ public class Autonomous11 extends LinearOpMode {
     private BNO055IMU gyroscopePart;
     private Orientation robotAngle;
     double servoOpen = 1;
-    double servoClose = 0.2;
+    double servoClose = 0.1;
+    int targetAngle = 36;
+    int forwardMove = 26;
 
     private double gearRatio = 2.0;
     private int ticksPerCm = 1120 / (int)(2 * 4.5 * 3.14159);
@@ -119,6 +121,7 @@ public class Autonomous11 extends LinearOpMode {
         DriveFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DriveBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DriveBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        DriveLS.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         BNO055IMU.Parameters gyroscopeParameters = new BNO055IMU.Parameters();
         gyroscopePart = hardwareMap.get(BNO055IMU.class, "imu");
@@ -164,7 +167,7 @@ public class Autonomous11 extends LinearOpMode {
             sleep(500);
             DriveLS.setPower(0);
 
-            DriveLS.setTargetPosition(-6300);
+            DriveLS.setTargetPosition(-6200);
             DriveLS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             while (opModeIsActive()) {
@@ -196,11 +199,11 @@ public class Autonomous11 extends LinearOpMode {
 
                                 driveToLinearPos();
 
-                                setDriveRight(29);
+                                setDriveLeft(31);
 
                                 driveToSidePos();
 
-                                setDriveForward(25);
+                                setDriveForward(forwardMove);
 
                                 driveToLinearPos();
 
@@ -211,26 +214,32 @@ public class Autonomous11 extends LinearOpMode {
                                 gyroCheck(true);
 
                                 DriveLS.setPower(-0.95);
-                                while(DriveLS.isBusy())
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
                                 {
                                     telemetry.addData("Raising Slide: ", DriveLS.getCurrentPosition());
                                     telemetry.update();
                                 }
                                 DriveLS.setPower(0);
 
-                                setDriveForward(16);
+                                setDriveForward(14);
 
                                 driveToAngledPos();
+
+                                DriveLS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                DriveLS.setPower(0.5);
+                                sleep(800);
+                                DriveLS.setPower(0);
+                                DriveLS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 Claw.setPosition(servoOpen);
 
-                                setDriveBackward(16);
+                                setDriveBackward(14);
 
                                 driveToAngledPos();
 
-                                DriveLS.setTargetPosition(-400);
+                                DriveLS.setTargetPosition(-200);
                                 DriveLS.setPower(0.95);
-                                while(DriveLS.isBusy())
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
                                 {
                                     telemetry.addData("Lowering Slide: ", DriveLS.getCurrentPosition());
                                     telemetry.update();
@@ -247,9 +256,84 @@ public class Autonomous11 extends LinearOpMode {
 
                                 driveToLinearPos();
 
-                                setDriveLeft(38);
+                                setDriveRight(38);
 
                                 driveToSidePos();
+
+                                DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                DriveLS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                sleep(30000);
+                            }
+                            else if (recognition.getLabel().equals("1 Fish") && recognition.getConfidence() > 0.60)
+                            {
+                                setDriveForward(5);
+
+                                DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                                DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                                driveToLinearPos();
+
+                                setDriveLeft(31);
+
+                                driveToSidePos();
+
+                                setDriveForward(forwardMove);
+
+                                driveToLinearPos();
+
+                                setAngleTurn();
+
+                                driveToBlindPos();
+
+                                gyroCheck(true);
+
+                                DriveLS.setPower(-0.95);
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
+                                {
+                                    telemetry.addData("Raising Slide: ", DriveLS.getCurrentPosition());
+                                    telemetry.update();
+                                }
+                                DriveLS.setPower(0);
+
+                                setDriveForward(14);
+
+                                driveToAngledPos();
+
+                                DriveLS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                DriveLS.setPower(0.5);
+                                sleep(800);
+                                DriveLS.setPower(0);
+                                DriveLS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                                Claw.setPosition(servoOpen);
+
+                                setDriveBackward(14);
+
+                                driveToAngledPos();
+
+                                DriveLS.setTargetPosition(-200);
+                                DriveLS.setPower(0.95);
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
+                                {
+                                    telemetry.addData("Lowering Slide: ", DriveLS.getCurrentPosition());
+                                    telemetry.update();
+                                }
+                                DriveLS.setPower(0);
+
+                                setAngleTurnBack();
+
+                                driveToBlindPos();
+
+                                gyroCheck(false);
+
+                                setDriveForward(3);
+
+                                driveToLinearPos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -269,11 +353,11 @@ public class Autonomous11 extends LinearOpMode {
 
                                 driveToLinearPos();
 
-                                setDriveRight(29);
+                                setDriveLeft(31);
 
                                 driveToSidePos();
 
-                                setDriveForward(25);
+                                setDriveForward(forwardMove);
 
                                 driveToLinearPos();
 
@@ -284,91 +368,32 @@ public class Autonomous11 extends LinearOpMode {
                                 gyroCheck(true);
 
                                 DriveLS.setPower(-0.95);
-                                while(DriveLS.isBusy())
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
                                 {
                                     telemetry.addData("Raising Slide: ", DriveLS.getCurrentPosition());
                                     telemetry.update();
                                 }
                                 DriveLS.setPower(0);
 
-                                setDriveForward(16);
+                                setDriveForward(14);
 
                                 driveToAngledPos();
 
-                                Claw.setPosition(servoOpen);
-
-                                setDriveBackward(16);
-
-                                driveToAngledPos();
-
-                                DriveLS.setTargetPosition(-400);
-                                DriveLS.setPower(0.95);
-                                while(DriveLS.isBusy())
-                                {
-                                    telemetry.addData("Lowering Slide: ", DriveLS.getCurrentPosition());
-                                    telemetry.update();
-                                }
-                                DriveLS.setPower(0);
-
-                                setAngleTurnBack();
-
-                                driveToBlindPos();
-
-                                gyroCheck(false);
-
-                                DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                                DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                                DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                                DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveLS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                                sleep(30000);
-                            }
-                            else if (recognition.getLabel().equals("1 Fish") && recognition.getConfidence() > 0.74)
-                            {
-                                setDriveForward(5);
-
-                                DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                                DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                                driveToLinearPos();
-
-                                setDriveRight(29);
-
-                                driveToSidePos();
-
-                                setDriveForward(25);
-
-                                driveToLinearPos();
-
-                                setAngleTurn();
-
-                                driveToBlindPos();
-
-                                gyroCheck(true);
-
-                                DriveLS.setPower(-0.95);
-                                while(DriveLS.isBusy())
-                                {
-                                    telemetry.addData("Raising Slide: ", DriveLS.getCurrentPosition());
-                                    telemetry.update();
-                                }
+                                DriveLS.setPower(0.5);
+                                sleep(800);
                                 DriveLS.setPower(0);
-
-                                setDriveForward(16);
-
-                                driveToAngledPos();
+                                DriveLS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 Claw.setPosition(servoOpen);
 
-                                setDriveBackward(16);
+                                setDriveBackward(14);
 
                                 driveToAngledPos();
 
-                                DriveLS.setTargetPosition(-400);
+                                DriveLS.setTargetPosition(-200);
                                 DriveLS.setPower(0.95);
-                                while(DriveLS.isBusy())
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
                                 {
                                     telemetry.addData("Lowering Slide: ", DriveLS.getCurrentPosition());
                                     telemetry.update();
@@ -385,7 +410,7 @@ public class Autonomous11 extends LinearOpMode {
 
                                 driveToLinearPos();
 
-                                setDriveLeft(74);
+                                setDriveRight(78);
 
                                 driveToSidePos();
 
@@ -407,11 +432,11 @@ public class Autonomous11 extends LinearOpMode {
 
                                 driveToLinearPos();
 
-                                setDriveRight(29);
+                                setDriveLeft(31);
 
                                 driveToSidePos();
 
-                                setDriveForward(25);
+                                setDriveForward(forwardMove);
 
                                 driveToLinearPos();
 
@@ -422,26 +447,32 @@ public class Autonomous11 extends LinearOpMode {
                                 gyroCheck(true);
 
                                 DriveLS.setPower(-0.95);
-                                while(DriveLS.isBusy())
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
                                 {
                                     telemetry.addData("Raising Slide: ", DriveLS.getCurrentPosition());
                                     telemetry.update();
                                 }
                                 DriveLS.setPower(0);
 
-                                setDriveForward(16);
+                                setDriveForward(14);
 
                                 driveToAngledPos();
+
+                                DriveLS.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                                DriveLS.setPower(0.5);
+                                sleep(800);
+                                DriveLS.setPower(0);
+                                DriveLS.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                                 Claw.setPosition(servoOpen);
 
-                                setDriveBackward(16);
+                                setDriveBackward(14);
 
                                 driveToAngledPos();
 
-                                DriveLS.setTargetPosition(-400);
+                                DriveLS.setTargetPosition(-200);
                                 DriveLS.setPower(0.95);
-                                while(DriveLS.isBusy())
+                                while(DriveLS.getCurrentPosition() != DriveLS.getTargetPosition())
                                 {
                                     telemetry.addData("Lowering Slide: ", DriveLS.getCurrentPosition());
                                     telemetry.update();
@@ -453,6 +484,14 @@ public class Autonomous11 extends LinearOpMode {
                                 driveToBlindPos();
 
                                 gyroCheck(false);
+
+                                setDriveForward(29);
+
+                                driveToLinearPos();
+
+                                setDriveRight(38);
+
+                                driveToSidePos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -586,18 +625,18 @@ public class Autonomous11 extends LinearOpMode {
 
                 if(robotAngle.firstAngle > 3)
                 {
-                    DriveFL.setTargetPosition(DriveFL.getTargetPosition() - 25);
-                    DriveFR.setTargetPosition(DriveFR.getTargetPosition() + 25);
-                    DriveBL.setTargetPosition(DriveBL.getTargetPosition() - 25);
-                    DriveBR.setTargetPosition(DriveBR.getTargetPosition() + 25);
+                    DriveFL.setTargetPosition(DriveFL.getTargetPosition() - 20);
+                    DriveFR.setTargetPosition(DriveFR.getTargetPosition() + 20);
+                    DriveBL.setTargetPosition(DriveBL.getTargetPosition() - 20);
+                    DriveBR.setTargetPosition(DriveBR.getTargetPosition() + 20);
                     telemetry.addLine("-Correcting Right");
                 }
                 else if(robotAngle.firstAngle < -3)
                 {
-                    DriveFL.setTargetPosition(DriveFL.getTargetPosition() + 25);
-                    DriveFR.setTargetPosition(DriveFR.getTargetPosition() - 25);
-                    DriveBL.setTargetPosition(DriveBL.getTargetPosition() + 25);
-                    DriveBR.setTargetPosition(DriveBR.getTargetPosition() - 25);
+                    DriveFL.setTargetPosition(DriveFL.getTargetPosition() + 20);
+                    DriveFR.setTargetPosition(DriveFR.getTargetPosition() - 20);
+                    DriveBL.setTargetPosition(DriveBL.getTargetPosition() + 20);
+                    DriveBR.setTargetPosition(DriveBR.getTargetPosition() - 20);
                     telemetry.addLine("-Correcting Left");
                 }
                 else
@@ -631,7 +670,7 @@ public class Autonomous11 extends LinearOpMode {
             telemetry.addData("Heading ", robotAngle.firstAngle);
             telemetry.update();
 
-            sleep(25);
+            sleep(15);
         }
     }
 
@@ -691,7 +730,7 @@ public class Autonomous11 extends LinearOpMode {
             telemetry.addData("Heading ", robotAngle.firstAngle);
             telemetry.update();
 
-            sleep(25);
+            sleep(15);
         }
     }
 
@@ -726,7 +765,7 @@ public class Autonomous11 extends LinearOpMode {
             telemetry.addData("Heading ", robotAngle.firstAngle);
             telemetry.update();
 
-            sleep(25);
+            sleep(15);
         }
     }
 
@@ -744,14 +783,14 @@ public class Autonomous11 extends LinearOpMode {
             {
                 robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-                if(robotAngle.firstAngle > 44)
+                if(robotAngle.firstAngle > targetAngle + 3)
                 {
                     DriveFL.setPower(0.45);
                     DriveFR.setPower(0.55);
                     DriveBL.setPower(0.45);
                     DriveBR.setPower(0.55);
                 }
-                else if(robotAngle.firstAngle < -38)
+                else if(robotAngle.firstAngle < targetAngle - 3)
                 {
                     DriveFL.setPower(0.55);
                     DriveFR.setPower(0.45);
@@ -784,17 +823,17 @@ public class Autonomous11 extends LinearOpMode {
             telemetry.addData("Heading ", robotAngle.firstAngle);
             telemetry.update();
 
-            sleep(25);
+            sleep(15);
         }
     }
 
-    private void gyroCheck (boolean angled)
+    private void gyroCheck (boolean angled) //needs angle tuning
     {
         if (opModeIsActive())
         {
             if (angled)
             {
-                while (robotAngle.firstAngle < -41)
+                while (robotAngle.firstAngle < targetAngle - 3)
                 {
                     robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -813,7 +852,7 @@ public class Autonomous11 extends LinearOpMode {
 
                     driveToBlindPos();
                 }
-                while (robotAngle.firstAngle > -31)
+                while (robotAngle.firstAngle > targetAngle + 3)
                 {
                     robotAngle = gyroscopePart.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
@@ -865,25 +904,23 @@ public class Autonomous11 extends LinearOpMode {
 
     private void setAngleTurn ()
     {
-        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + 480);
-        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - 480);
-        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + 480);
-        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - 480);
+        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() - (560 / 45 * targetAngle));
+        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + (560 / 45 * targetAngle));
+        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - (560 / 45 * targetAngle));
+        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + (560 / 45 * targetAngle));
 
         DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveBL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveBR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        //To Do: refine turn (if this doesn't work, work on some dynamic method)
     }
 
     private void setAngleTurnBack ()
     {
-        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() - 480);
-        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() + 480);
-        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() - 480);
-        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() + 480);
+        DriveFR.setTargetPosition(DriveFR.getCurrentPosition() + (560 / 45 * targetAngle));
+        DriveFL.setTargetPosition(DriveFL.getCurrentPosition() - (560 / 45 * targetAngle));
+        DriveBR.setTargetPosition(DriveBR.getCurrentPosition() + (560 / 45 * targetAngle));
+        DriveBL.setTargetPosition(DriveBL.getCurrentPosition() - (560 / 45 * targetAngle));
 
         DriveFL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         DriveFR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
