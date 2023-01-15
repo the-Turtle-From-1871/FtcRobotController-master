@@ -58,7 +58,7 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Autonomous 10 (Without Slide)", preselectTeleOp = "MecanumDriveTeleOP3")
+@Autonomous(name = "Autonomous 10 (Without Slide, Universal)", preselectTeleOp = "MecanumDriveTeleOP1 (operational)")
 public class Autonomous10 extends LinearOpMode {
 
     private DcMotor DriveFL;
@@ -70,7 +70,7 @@ public class Autonomous10 extends LinearOpMode {
     private BNO055IMU gyroscopePart;
     private Orientation robotAngle;
     double servoOpen = 1;
-    double servoClose = 0;
+    double servoClose = 0.2;
 
     private double gearRatio = 2.0;
     private int ticksPerCm = 1120 / (int)(2 * 4.5 * 3.14159);
@@ -86,7 +86,7 @@ public class Autonomous10 extends LinearOpMode {
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
-    private static final String TFOD_MODEL_ASSET = "model_20221105_101110.tflite";
+    private static final String TFOD_MODEL_ASSET = "StatesModel";
 
     private static final String[] LABELS = {
             "1 Fish",
@@ -112,8 +112,7 @@ public class Autonomous10 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
+        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that first.
         initVuforia();
         initTfod();
 
@@ -131,6 +130,7 @@ public class Autonomous10 extends LinearOpMode {
         DriveFR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DriveBL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DriveBR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        DriveLS.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         gyroscopePart = hardwareMap.get(BNO055IMU.class, "imu");
@@ -155,6 +155,8 @@ public class Autonomous10 extends LinearOpMode {
         }
 
         /** Wait for the game to begin */
+        telemetry.addLine(gyroscopePart.isSystemCalibrated() ? "System Calibrated" : "System Not Calibrated");
+        telemetry.addLine(gyroscopePart.isGyroCalibrated() ? "Gyroscope Calibrated" : "Gyroscope Not Calibrated");
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
 
@@ -164,11 +166,11 @@ public class Autonomous10 extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            Claw.setPosition(servoClose);
+            /*Claw.setPosition(servoClose);
             sleep(10);
             DriveLS.setPower(-0.25);
             sleep(500);
-            DriveLS.setPower(0);
+            DriveLS.setPower(0);*/
 
             while (opModeIsActive()) {
 
@@ -244,6 +246,10 @@ public class Autonomous10 extends LinearOpMode {
 
                                 gyroCheck(false);
 
+                                setDriveForward(2);
+
+                                driveToPos();
+
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -305,6 +311,10 @@ public class Autonomous10 extends LinearOpMode {
                                 driveToPos();
 
                                 gyroCheck(false);
+
+                                setDriveForward(2);
+
+                                driveToPos();
 
                                 DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                                 DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -448,6 +458,10 @@ public class Autonomous10 extends LinearOpMode {
             DriveFR.setPower(0);
             DriveBL.setPower(0);
             DriveBR.setPower(0);
+
+            telemetry.addLine("Run Completed");
+            telemetry.addData("Heading ", robotAngle.firstAngle);
+            telemetry.update();
 
             sleep(25);
         }
