@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp(name = "MecanumDriveTeleOP3 (for testing)")
+@TeleOp(name = "MecanumDriveTeleOP3 (experimental)")
 public class MecanumDriveTeleOP3 extends LinearOpMode {
 
   private DcMotorEx DriveBL;
@@ -28,6 +28,8 @@ public class MecanumDriveTeleOP3 extends LinearOpMode {
   private boolean driven;
   private int wheelRedundancy;
   private double correctionSpeed;
+  double servoOpen = 1;
+  double servoClose = 0.1;
 
   /**
    * This function is executed when this Op Mode is selected from the Driver Station.
@@ -50,7 +52,12 @@ public class MecanumDriveTeleOP3 extends LinearOpMode {
     gyroscopePart = hardwareMap.get(BNO055IMU.class, "imu");
     gyroscopePart.initialize(parameters);
 
-    Claw.setPosition(0.79);
+    Claw.setPosition(servoClose);
+
+    DriveFL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    DriveFR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    DriveBL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    DriveBR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     waitForStart();
     if (opModeIsActive()) {
@@ -112,9 +119,9 @@ public class MecanumDriveTeleOP3 extends LinearOpMode {
         }
 
         if (gamepad2.a) {
-          Claw.setPosition(0.79);
+          Claw.setPosition(servoOpen);
         } else if (gamepad2.b) {
-          Claw.setPosition(0.5);
+          Claw.setPosition(servoClose);
         }
 
         if (gamepad1.a) {
@@ -152,11 +159,21 @@ public class MecanumDriveTeleOP3 extends LinearOpMode {
         }
         if (gamepad1.y)
         {
-          DriveBL.setPower(-0.9);
-          DriveFL.setPower(-0.9);
-          DriveBR.setPower(-0.9);
-          DriveFR.setPower(-0.9);
-          sleep(2000);
+          DriveBL.setPower(1);
+          DriveFL.setPower(1);
+          DriveBR.setPower(-1);
+          DriveFR.setPower(-1);
+          sleep(650);
+          DriveBL.setPower(0);
+          DriveFL.setPower(0);
+          DriveBR.setPower(0);
+          DriveFR.setPower(0);
+          sleep(20);
+          DriveBL.setPower(0.9);
+          DriveFL.setPower(0.9);
+          DriveBR.setPower(0.9);
+          DriveFR.setPower(0.9);
+          sleep(200);
           DriveBL.setPower(0);
           DriveFL.setPower(0);
           DriveBR.setPower(0);
@@ -171,8 +188,8 @@ public class MecanumDriveTeleOP3 extends LinearOpMode {
         else
           DriveLS.setPower(gamepad2.left_trigger * 0.95 - gamepad2.right_trigger * 0.95); //Left, up; right, down
 
-        /* if(gamepad2.y)
-          DriveLS.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); */
+        if(gamepad2.y)
+          DriveLS.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         if (gamepad1.dpad_left)
           wheelRedundancy = 1;
